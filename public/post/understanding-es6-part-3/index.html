@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《深入理解ES6》读书笔记之三：函数 - WildNode</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="KidneyFlower" />
+  <meta name="description" content="函数形参的默认值 ES6 中，定义函数时为形参赋值即可为其提供一个默认值： function add (a, b = 1) { return a &#43; b } add(1) // 2 add(1, 2) // 3 参数默认值对 arguments 对象的影响 ES6 中，如果一" />
+
+  <meta name="keywords" content="WildNode, Blog, FrontEnd, JavaScript" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.48" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/understanding-es6-part-3/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<meta property="og:title" content="《深入理解ES6》读书笔记之三：函数" />
+<meta property="og:description" content="函数形参的默认值 ES6 中，定义函数时为形参赋值即可为其提供一个默认值： function add (a, b = 1) { return a &#43; b } add(1) // 2 add(1, 2) // 3 参数默认值对 arguments 对象的影响 ES6 中，如果一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/understanding-es6-part-3/" /><meta property="article:published_time" content="2018-09-15T04:15:25&#43;08:00"/>
+<meta property="article:modified_time" content="2018-09-15T04:15:25&#43;08:00"/>
+<meta itemprop="name" content="《深入理解ES6》读书笔记之三：函数">
+<meta itemprop="description" content="函数形参的默认值 ES6 中，定义函数时为形参赋值即可为其提供一个默认值： function add (a, b = 1) { return a &#43; b } add(1) // 2 add(1, 2) // 3 参数默认值对 arguments 对象的影响 ES6 中，如果一">
+
+
+<meta itemprop="datePublished" content="2018-09-15T04:15:25&#43;08:00" />
+<meta itemprop="dateModified" content="2018-09-15T04:15:25&#43;08:00" />
+<meta itemprop="wordCount" content="2093">
+
+
+
+<meta itemprop="keywords" content="读书笔记,JavaScript,ES6," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《深入理解ES6》读书笔记之三：函数"/>
+<meta name="twitter:description" content="函数形参的默认值 ES6 中，定义函数时为形参赋值即可为其提供一个默认值： function add (a, b = 1) { return a &#43; b } add(1) // 2 add(1, 2) // 3 参数默认值对 arguments 对象的影响 ES6 中，如果一"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">WildNode</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">WildNode</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《深入理解ES6》读书笔记之三：函数</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-09-15 </span>
+        <div class="post-category">
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            
+          </div>
+        <span class="more-meta"> 约 2093 字 </span>
+        <span class="more-meta"> 预计阅读 5 分钟 </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#函数形参的默认值">函数形参的默认值</a></li>
+<li><a href="#参数默认值对-arguments-对象的影响">参数默认值对 arguments 对象的影响</a></li>
+<li><a href="#默认参数表达式">默认参数表达式</a></li>
+<li><a href="#默认参数的临时死区">默认参数的临时死区</a></li>
+<li><a href="#不定参数">不定参数</a></li>
+<li><a href="#展开运算符">展开运算符</a></li>
+<li><a href="#明确函数的多重用途">明确函数的多重用途</a></li>
+<li><a href="#元属性">元属性</a>
+<ul>
+<li><a href="#new-target">new.target</a></li>
+</ul></li>
+<li><a href="#块级函数">块级函数</a></li>
+<li><a href="#箭头函数">箭头函数</a>
+<ul>
+<li><a href="#箭头函数语法">箭头函数语法</a></li>
+<li><a href="#创建立即执行函数">创建立即执行函数</a></li>
+</ul></li>
+<li><a href="#尾调用优化">尾调用优化</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<h2 id="函数形参的默认值">函数形参的默认值</h2>
+
+<p>ES6 中，定义函数时为形参赋值即可为其提供一个默认值：</p>
+
+<pre><code class="language-javascript">function add (a, b = 1) {
+  return a + b
+}
+
+add(1) // 2
+
+add(1, 2) // 3
+</code></pre>
+
+<h2 id="参数默认值对-arguments-对象的影响">参数默认值对 arguments 对象的影响</h2>
+
+<p>ES6 中，如果一个函数使用了默认参数值，则其行为将与 ES5 严格模式下保持一致，无论参数如何变化，arguments 对象不再随之改变：</p>
+
+<pre><code class="language-javascript">function add (a, b = 1) {
+  console.log(arguments.length) // 1
+  console.log(a === arguments[0]) // true
+  console.log(b === arguments[1]) // false
+  a = 5
+  b = 10
+  console.log(a === arguments[0]) // false
+  console.log(b === arguments[1]) // false
+}
+
+add(1)
+</code></pre>
+
+<p>在上例中，由于使用了默认参数值，在函数中改变参数的值并不会影响 arguments 对象。</p>
+
+<h2 id="默认参数表达式">默认参数表达式</h2>
+
+<p>默认参数的值可以为一个 JavaScript 表达式：</p>
+
+<pre><code class="language-javascript">function getValue () {
+  return 5
+}
+
+function add (a, b = getValue()) {
+  return a + b
+}
+
+add(1) // 6
+</code></pre>
+
+<p>在初次解析函数声明时作为参数默认值的表达式不会执行，只有在调用函数且不传入带有默认值的参数时才会进行调用，例如：</p>
+
+<pre><code class="language-javascript">let value = 5
+
+function getValue () {
+  return value++
+}
+
+function add (a, b = getValue()) {
+  return a + b
+}
+
+add(1, 1) // 2
+
+add(1) // 6
+
+add(1) // 7
+</code></pre>
+
+<h2 id="默认参数的临时死区">默认参数的临时死区</h2>
+
+<p>因为默认参数是在函数调用时求值的，所以可以使用先定义的参数作为后定义参数的默认值：</p>
+
+<pre><code class="language-javascript">function add (a, b = a) {
+  return a + b
+}
+
+add(2) // 4
+</code></pre>
+
+<p>但如果用后定义参数作为先定义参数的默认值，则会报错：</p>
+
+<pre><code class="language-javascript">function add (a = b, b) {
+  return a + b
+}
+
+add(undefined, 1) // 报错
+</code></pre>
+
+<p>原因是当参数 a 初始化时，参数 b 还处在临时死区中，所有引用临时死区中变量的行为都会抛出错误。</p>
+
+<blockquote>
+<p>函数参数有自己的作用域和临时死区，其与函数体的作用域是相互独立的，所以参数默认值不能访问函数体内声明的变量。</p>
+</blockquote>
+
+<h2 id="不定参数">不定参数</h2>
+
+<p>ES6 中，在函数的命名参数前加三个点（<code>...</code>）就表明这是一个不定参数，该参数为一个数组，包含着自它之后传入的所有参数：</p>
+
+<pre><code class="language-javascript">function restParams (a, ...rest) {
+  console.log(rest)
+}
+
+restParams(1, 2, 3, 4, 5) // [2, 3, 4, 5]
+</code></pre>
+
+<p>不定参数有两条使用限制：</p>
+
+<ul>
+<li>每个函数最多只能声明一个不定参数，且一定要放在所有参数的末尾</li>
+<li>不定参数不能用于对象字面量 setter 中，因为对象字面量 setter 的参数有且只能有一个</li>
+</ul>
+
+<p>另外，无论是否使用不定参数，arguments 对象总是包含所有传入函数的参数。</p>
+
+<h2 id="展开运算符">展开运算符</h2>
+
+<p>展开运算符可以让你指定一个数组，将它打散后作为各自独立的参数传入函数，以取数组中最大数字为例：</p>
+
+<pre><code class="language-javascript">const arr = [1, 2, 3, 4, 5]
+
+// ES5
+Math.max.apply(Math, arr) // 5
+
+// ES6
+Math.max(...arr) // 5
+</code></pre>
+
+<p>另外，可以将展开运算符和其他正常传入的参数混合使用：</p>
+
+<pre><code class="language-javascript">const arr = [1, 2, 3, 4, 5]
+
+Math.max(...arr, 6, 7) // 7
+</code></pre>
+
+<h2 id="明确函数的多重用途">明确函数的多重用途</h2>
+
+<p>JavaScript 函数有两个不同的内部方法：[[Call]] 和 [[Construct]] ，当通过 new 关键字调用函数时，执行的是 [[Construct]] 函数，它负责创建一个通常被称作实例的新对象，然后再执行函数体，将 this 绑定到实例上。如果不通过 new 关键字调用函数，则执行 [[Call]] 函数，直接执行函数体中的代码。具有 [[Construct]] 方法的函数被统称为构造函数。</p>
+
+<blockquote>
+<p>不是每个函数都有 [[Construct]] 方法，比如箭头函数。因此不是所有函数都可以通过 new 关键字调用。</p>
+</blockquote>
+
+<h2 id="元属性">元属性</h2>
+
+<p>元属性是指非对象的属性，其可以提供非对象目标的补充信息。</p>
+
+<h3 id="new-target">new.target</h3>
+
+<p>为了解决判断函数是否通过 new 关键字调用的问题，ES6 引入了 new.target 这个元属性。当调用函数的 [[Construct]] 方法时，new.target 被赋值为 new 操作符的目标，通常是新创建的实例，也就是函数体内 this 的构造函数。如果调用的是 [[Call]] 方法，则 new.target 的值为 undefined。</p>
+
+<pre><code class="language-javascript">function Person (name) {
+  if (typeof new.target !== 'undefined') {
+    this.name = name
+  } else {
+    throw new Error('必须通过 new 关键字调用 Person')
+  }
+}
+
+const newPerson = new Person('Nicholas') // OK
+
+const notPerson = Person.call(Person, 'Michael') // 报错
+</code></pre>
+
+<p>也可以检查 new.target 是否被某个特定的构造函数所调用：</p>
+
+<pre><code class="language-javascript">function Person (name) {
+  if (typeof new.target !== 'undefined') {
+    this.name = name
+  } else {
+    throw new Error('必须通过 new 关键字调用 Person')
+  }
+}
+
+function AnotherPerson (name) {
+  Person.call(this, name)
+}
+
+const newPerson = new Person('Nicholas') // OK
+
+const notPerson = new AnotherPerson('Michael') // 报错
+</code></pre>
+
+<h2 id="块级函数">块级函数</h2>
+
+<p>ES6中，在块级作用域内，如果使用函数声明来定义函数，函数会被提升至顶部，因此即使你再函数定义的位置之前调用该函数，也能返回正确结果。但如果使用 let 或 const 关键字定义函数表达式，函数则不会被提升，且代码块中的代码一旦执行完毕，函数将立刻被销毁。</p>
+
+<blockquote>
+<p>如果处于非严格模式，块级函数将不再提升至代码块顶部，而是提升至外围函数或全局作用域的顶部。</p>
+</blockquote>
+
+<h2 id="箭头函数">箭头函数</h2>
+
+<p>箭头函数是 ES6 中新增的一个特性，顾名思义，箭头函数是使用箭头（<code>=&gt;</code>）定义函数的新语法，他与传统的函数有以下几点区别：</p>
+
+<ul>
+<li>没有 this, super, arguments 和 new.target 绑定，这些值由外围最近一层非箭头函数决定</li>
+<li>不能通过 new 关键字调用，因为箭头函数没有 [[Construct]] 方法</li>
+<li>没有原型，因为不能通过 new 调用，因此没有也无需拥有 prototype 属性</li>
+<li>不支持 arguments 对象，只能通过命名参数和不定参数两种形式访问函数的参数</li>
+<li>不支持重复的命名参数（传统函数只有在严格模式下才不支持重复的命名参数）</li>
+</ul>
+
+<h3 id="箭头函数语法">箭头函数语法</h3>
+
+<p>无参数：</p>
+
+<pre><code class="language-javascript">const func = () =&gt; {
+  return 'Arrow Function'
+}
+</code></pre>
+
+<p>一个参数：</p>
+
+<pre><code class="language-javascript">const func = param =&gt; {
+  return param
+}
+</code></pre>
+
+<p>多个参数：</p>
+
+<pre><code class="language-javascript">const func = (a, b, c) =&gt; {
+  return [a, b, c]
+}
+</code></pre>
+
+<p>返回值简写：</p>
+
+<pre><code class="language-javascript">const func = (a, b) =&gt; a + b
+</code></pre>
+
+<p>返回对象字面量，需要将对象字面量包裹在小括号中，从而与函数体区分开来：</p>
+
+<pre><code class="language-javascript">const func = () =&gt; ({
+  foo: 'foo',
+  bar: 'bar'
+})
+</code></pre>
+
+<h3 id="创建立即执行函数">创建立即执行函数</h3>
+
+<p>使用箭头函数创建立即执行函数十分方便且整洁：</p>
+
+<pre><code class="language-javascript">const person = (name =&gt; ({
+  getName: () =&gt; {
+    return name
+  }
+}))('Nicholas')
+
+person.getName() // Nicholas
+</code></pre>
+
+<h2 id="尾调用优化">尾调用优化</h2>
+
+<p>在 ES5中，尾调用的实现与其他函数的实现类似：创建一个新的栈帧（stack frame），将其推入调用栈来表示函数调用。也就是说，在循环调用中，每一个未用完的栈帧都会被保存在内存中，当调用栈变得过大时会造成程序问题。</p>
+
+<p>ES6 在<strong>严格模式</strong>中对尾调用系统做了优化，如果满足以下条件，尾调用不再创建新的栈帧，而是清除并重用当前栈帧：</p>
+
+<ul>
+<li>尾调用不访问当前栈帧的变量（也就是说函数不是一个闭包）</li>
+<li>在函数内部，尾调用是最后一条语句</li>
+<li>尾调用的结果作为函数值返回</li>
+</ul>
+
+<blockquote>
+<p>递归是尾调用优化最主要的应用场景，此时尾调用优化的效果也最显著。</p>
+</blockquote>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">KidneyFlower</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-09-15</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          
+          <a href="/tags/javascript/">JavaScript</a>
+          
+          <a href="/tags/es6/">ES6</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/understanding-es6-part-2/">
+            <span class="next-text nav-default">《深入理解ES6》读书笔记之二：字符串和正则表达式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'wildnode-blog';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:wildnode@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/KidneyFlower" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/KidneyFlower" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">KidneyFlower</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

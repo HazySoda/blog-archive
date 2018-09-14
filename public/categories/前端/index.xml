@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端 on WildNode</title>
+    <link>http://localhost:1313/categories/%E5%89%8D%E7%AB%AF/</link>
+    <description>Recent content in 前端 on WildNode</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 15 Sep 2018 04:15:25 +0800</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/categories/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之三：函数</title>
+      <link>http://localhost:1313/post/understanding-es6-part-3/</link>
+      <pubDate>Sat, 15 Sep 2018 04:15:25 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-3/</guid>
+      <description>函数形参的默认值 ES6 中，定义函数时为形参赋值即可为其提供一个默认值： function add (a, b = 1) { return a + b } add(1) // 2 add(1, 2) // 3 参数默认值对 arguments 对象的影响 ES6 中，如果一</description>
+    </item>
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之二：字符串和正则表达式</title>
+      <link>http://localhost:1313/post/understanding-es6-part-2/</link>
+      <pubDate>Sat, 15 Sep 2018 04:15:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-2/</guid>
+      <description>字符串中的子串识别 我们一直使用 indexOf 方法来在一段字符串中检测另一段字符串，ES6 中提供了一下三个新方法： includes() 方法，如果在字符串中检测到指定文本则返</description>
+    </item>
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之一：块级作用域绑定</title>
+      <link>http://localhost:1313/post/understanding-es6-part-1/</link>
+      <pubDate>Sat, 15 Sep 2018 04:15:18 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-1/</guid>
+      <description>块级声明 块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于： 函数内部 代码块内部 var 声明 会被提升至作用域顶部 允</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《深入理解ES6》读书笔记之一：块级作用域绑定 - WildNode</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="KidneyFlower" />
+  <meta name="description" content="块级声明 块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于： 函数内部 代码块内部 var 声明 会被提升至作用域顶部 允" />
+
+  <meta name="keywords" content="WildNode, Blog, FrontEnd, JavaScript" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.48" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/understanding-es6-part-1/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<meta property="og:title" content="《深入理解ES6》读书笔记之一：块级作用域绑定" />
+<meta property="og:description" content="块级声明 块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于： 函数内部 代码块内部 var 声明 会被提升至作用域顶部 允" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/understanding-es6-part-1/" /><meta property="article:published_time" content="2018-09-15T04:15:18&#43;08:00"/>
+<meta property="article:modified_time" content="2018-09-15T04:15:18&#43;08:00"/>
+<meta itemprop="name" content="《深入理解ES6》读书笔记之一：块级作用域绑定">
+<meta itemprop="description" content="块级声明 块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于： 函数内部 代码块内部 var 声明 会被提升至作用域顶部 允">
+
+
+<meta itemprop="datePublished" content="2018-09-15T04:15:18&#43;08:00" />
+<meta itemprop="dateModified" content="2018-09-15T04:15:18&#43;08:00" />
+<meta itemprop="wordCount" content="887">
+
+
+
+<meta itemprop="keywords" content="读书笔记,JavaScript,ES6," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《深入理解ES6》读书笔记之一：块级作用域绑定"/>
+<meta name="twitter:description" content="块级声明 块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于： 函数内部 代码块内部 var 声明 会被提升至作用域顶部 允"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">WildNode</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">WildNode</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《深入理解ES6》读书笔记之一：块级作用域绑定</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-09-15 </span>
+        <div class="post-category">
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            
+          </div>
+        <span class="more-meta"> 约 887 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#块级声明">块级声明</a></li>
+<li><a href="#var-声明">var 声明</a></li>
+<li><a href="#let-声明">let 声明</a></li>
+<li><a href="#const-声明">const 声明</a></li>
+<li><a href="#临时死区-tdz">临时死区（TDZ）</a></li>
+<li><a href="#循环中的块作用域绑定">循环中的块作用域绑定</a></li>
+<li><a href="#全局块作用域绑定">全局块作用域绑定</a></li>
+<li><a href="#最佳实践">最佳实践</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<h2 id="块级声明">块级声明</h2>
+
+<p>块级声明用于声明在指定的作用域之外无法访问的变量，块级作用域（也称词法作用域）存在于：</p>
+
+<ul>
+<li>函数内部</li>
+<li>代码块内部</li>
+</ul>
+
+<h2 id="var-声明">var 声明</h2>
+
+<ul>
+<li>会被提升至作用域顶部</li>
+<li>允许重复声明同名变量</li>
+</ul>
+
+<h2 id="let-声明">let 声明</h2>
+
+<ul>
+<li>不会被提升至作用域顶部</li>
+<li>不允许重复声明同名变量</li>
+<li>在所属代码块或函数中的代码执行完毕后会立即销毁</li>
+</ul>
+
+<h2 id="const-声明">const 声明</h2>
+
+<ul>
+<li>不会被提升至作用域顶部</li>
+<li>不允许重复声明同名变量</li>
+<li>在所属代码块或函数中的代码执行完毕后会立即销毁</li>
+<li>声明时必须进行初始化（赋值）</li>
+<li>声明后不允许再次赋值</li>
+<li>如果常量的值是引用类型，引用类型中的值可以修改（<code>const</code> 实际指向的是内存地址的引用）</li>
+</ul>
+
+<h2 id="临时死区-tdz">临时死区（TDZ）</h2>
+
+<p>由于 <code>let</code> 和 <code>const</code> 声明的变量不会被提升至作用域顶部，所以如果在声明之前访问变量，即使相对安全的 typeof 操作符也会报错：</p>
+
+<pre><code class="language-javascript">if (condition) {
+  console.log(typeof value) // 报错
+  let value = 'foo'
+}
+</code></pre>
+
+<p>但如果在该变量声明作用域外对其进行访问则不会报错：</p>
+
+<pre><code class="language-javascript">console.log(typeof value) // undefined
+if (condition) {
+  let value = 'foo'
+}
+</code></pre>
+
+<h2 id="循环中的块作用域绑定">循环中的块作用域绑定</h2>
+
+<p>老生常谈的例子：</p>
+
+<pre><code class="language-javascript">var funcs = []
+
+for (var i = 0; i &lt; 10; i++) {
+  funcs.push(function () {
+    console.log(i)
+  })
+}
+
+funcs.forEach(function (func) {
+  func() // 输出 10 次 10
+})
+
+console.log(i) // 10
+</code></pre>
+
+<p>我们期望的行为是循环调用 <code>funcs</code> 中的函数后依次输出 0 到 9 ，然而由于使用 <code>var</code> 声明的变量会被提示至作用域顶部，导致变量 <code>i</code> 在循环结束后仍可以访问，想解决这个问题，可以借助立即执行函数（IIFE）：</p>
+
+<pre><code class="language-javascript">var funcs = []
+
+for (var i = 0; i &lt; 10; i++) {
+  funcs.push((function (i) {
+    return function () {
+      console.log(i)
+    }
+  })(i))
+}
+
+funcs.forEach(function (func) {
+  func() // 依次输出 0 到 9
+})
+
+console.log(i) // 10
+</code></pre>
+
+<p>现在有了块级绑定，只需将 <code>var</code> 替换为 <code>let</code> 即可：</p>
+
+<pre><code class="language-javascript">var funcs = []
+
+for (let i = 0; i &lt; 10; i++) {
+  funcs.push(function () {
+    console.log(i)
+  })
+}
+
+funcs.forEach(function (func) {
+  func() // 依次输出 0 到 9
+})
+
+console.log(i) // 10
+</code></pre>
+
+<p>如果在循环中使用了 <code>let</code>，每次迭代循环都会创建一个新变量，并以之前迭代中同名变量的值将其初始化（在 <code>for-in</code> 和 <code>for-of</code> 循环中也是一样的）。</p>
+
+<blockquote>
+<p><code>let</code> 声明在循环中的行为是标准中专门定义的，其不一定与 let 的不提升特性相关。</p>
+</blockquote>
+
+<p>在 <code>for-in</code> 和 <code>for-of</code> 循环中，用于循环的变量不会被重新赋值，因此可以使用 <code>const</code> ：</p>
+
+<pre><code class="language-javascript">var obj = {
+  foo: 'foo',
+  bar: 'bar'
+}
+
+for (const key in obj) {
+  console.log(key) // foo bar
+}
+</code></pre>
+
+<p>每次迭代不会像 <code>let</code> 一样修改已有绑定，而是会创建一个新绑定。</p>
+
+<h2 id="全局块作用域绑定">全局块作用域绑定</h2>
+
+<p><code>let</code> 和 <code>const</code> 可以遮蔽全局变量，但不能覆盖全局变量：</p>
+
+<pre><code class="language-javascript">window.foo = 'foo'
+
+let foo = 'bar'
+
+console.log(foo) // bar
+
+console.log(window.foo) // foo
+</code></pre>
+
+<h2 id="最佳实践">最佳实践</h2>
+
+<p>不再使用 <code>var</code> ，默认使用 <code>const</code> ，只在确实需要改变变量的值时使用 <code>let</code> 。因为大部分变量的值在初始化后不应该再改变，且变量值在预料之外发生改变是很多 BUG 的源头。</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">KidneyFlower</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-09-15</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          
+          <a href="/tags/javascript/">JavaScript</a>
+          
+          <a href="/tags/es6/">ES6</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/understanding-es6-part-2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">《深入理解ES6》读书笔记之二：字符串和正则表达式</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/test/">
+            <span class="next-text nav-default">测试文章</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'wildnode-blog';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:wildnode@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/KidneyFlower" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/KidneyFlower" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">KidneyFlower</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
