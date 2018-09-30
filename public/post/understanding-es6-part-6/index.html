@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《深入理解ES6》读书笔记之六：Symbol和Symbol属性 - WildNode</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="KidneyFlower" />
+  <meta name="description" content="除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。 创建 Symbol 可以通过全局的 Symbol 函数创建" />
+
+  <meta name="keywords" content="WildNode, Blog, FrontEnd, JavaScript" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.48" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/understanding-es6-part-6/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<meta property="og:title" content="《深入理解ES6》读书笔记之六：Symbol和Symbol属性" />
+<meta property="og:description" content="除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。 创建 Symbol 可以通过全局的 Symbol 函数创建" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/understanding-es6-part-6/" /><meta property="article:published_time" content="2018-09-30T22:06:09&#43;08:00"/>
+<meta property="article:modified_time" content="2018-09-30T22:06:09&#43;08:00"/>
+<meta itemprop="name" content="《深入理解ES6》读书笔记之六：Symbol和Symbol属性">
+<meta itemprop="description" content="除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。 创建 Symbol 可以通过全局的 Symbol 函数创建">
+
+
+<meta itemprop="datePublished" content="2018-09-30T22:06:09&#43;08:00" />
+<meta itemprop="dateModified" content="2018-09-30T22:06:09&#43;08:00" />
+<meta itemprop="wordCount" content="720">
+
+
+
+<meta itemprop="keywords" content="读书笔记,JavaScript,ES6," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《深入理解ES6》读书笔记之六：Symbol和Symbol属性"/>
+<meta name="twitter:description" content="除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。 创建 Symbol 可以通过全局的 Symbol 函数创建"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">WildNode</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">WildNode</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《深入理解ES6》读书笔记之六：Symbol和Symbol属性</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-09-30 </span>
+        <div class="post-category">
+            
+              <a href="/categories/%E5%89%8D%E7%AB%AF/"> 前端 </a>
+            
+          </div>
+        <span class="more-meta"> 约 720 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#创建-symbol">创建 Symbol</a></li>
+<li><a href="#symbol-的使用方法">Symbol 的使用方法</a></li>
+<li><a href="#symbol-共享体系">Symbol 共享体系</a></li>
+<li><a href="#symbol-与强制类型转换">Symbol 与强制类型转换</a></li>
+<li><a href="#symbol-属性检索">Symbol 属性检索</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。</p>
+
+<h2 id="创建-symbol">创建 Symbol</h2>
+
+<p>可以通过全局的 Symbol 函数创建一个 Symbol：</p>
+
+<pre><code class="language-javascript">let firstName = Symbol()
+let lastName = Symbol('lastName')
+let person = {}
+
+person[firstName] = 'Nicholas'
+person[lastName] = 'Zakas'
+
+console.log(firstName) // Symbol()
+console.log(lastName) // Symbol(lastName)
+console.log(person[firstName]) // Nicholas
+console.log(person[lastName]) // Zakas
+</code></pre>
+
+<p>在上面这段代码中，创建了名为 firstName 和 lastName 的两个 Symbol，用他们将两个新的属性赋给 person 对象，每当想访问这两个属性时必须要用到最初定义的 Symbol。</p>
+
+<p>Symbol 函数接受一个可选参数，可以为即将创建的 Symbol 添加一段文本描述。</p>
+
+<blockquote>
+<p>由于 Symbol 是原始类型，调用 new Symbol() 会导致抛出错误。</p>
+</blockquote>
+
+<h2 id="symbol-的使用方法">Symbol 的使用方法</h2>
+
+<p>所有可以使用计算属性名的地方，都可以使用 Symbol，Symbol 也可以用于可计算对象字面量属性名、Object.defineProperty() 方法和 Object.defineProperties() 方法的调用过程中：</p>
+
+<pre><code class="language-javascript">let firstName = Symbol('firstName')
+
+let person = {
+  [firstName]: 'Nicholas'
+}
+
+Object.defineProperty(person, firstName, {
+  writable: false
+})
+</code></pre>
+
+<h2 id="symbol-共享体系">Symbol 共享体系</h2>
+
+<p>如果想创建一个可共享的 Symbol，要使用 Symbol.for() 方法。它只接收一个参数，也就是即将创建的 Symbol 的字符串标识符，这个参数同样也被用于 Symbol 的描述：</p>
+
+<pre><code class="language-javascript">let uid = Symbol.for('uid')
+let obj = {}
+
+obj[uid] = 1
+
+console.log(obj[uid]) // 1
+console.log(uid) // Symbol(uid)
+</code></pre>
+
+<p>Symbol.for() 方法首先在全局 Symbol 注册表中搜索键为 uid 的 Symbol 是否存在，如果存在，直接返回已有的 Symbol，否则创建一个新的 Symbol，并使用这个键在 Symbol 全局注册表中注册，随后返回新创建的 Symbol。</p>
+
+<p>可以使用 Symbol.keyFor() 方法在 Symbol 全局注册表中检索与 Symbol 有关的键：</p>
+
+<pre><code class="language-javascript">let uid = Symbol.for('uid')
+let token = Symbol('token')
+
+
+console.log(Symbol.keyFor(uid)) // uid
+console.log(Symbol.keyFor(token)) // undefined
+</code></pre>
+
+<h2 id="symbol-与强制类型转换">Symbol 与强制类型转换</h2>
+
+<p>Symbol 可以被 String() 方法和 toString() 方法转换为字符串形式，但如果将 Symbol 和字符串进行拼接或将它强制转换成数字则会抛出错误。实际上，除了逻辑操作符之外，将 Symbol 与每一个数字操作符混合使用都会抛出错误。</p>
+
+<h2 id="symbol-属性检索">Symbol 属性检索</h2>
+
+<p>Object.getOwnPropertySymbols() 方法可以用来检测对象中所有的 Symbol 属性，它的返回值是一个包含所有 Symbol 自有属性的数组：</p>
+
+<pre><code class="language-javascript">let uid = Symbol.for('uid')
+let obj = {
+  [uid]: 1
+}
+
+let symbols = Object.getOwnPropertySymbols(obj)
+
+console.log(symbols.length) // 1
+console.log(symbols[0]) // Symbol(uid)
+console.log(obj[symbols[0]]) // 1
+</code></pre>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">KidneyFlower</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-09-30</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+          
+          <a href="/tags/javascript/">JavaScript</a>
+          
+          <a href="/tags/es6/">ES6</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/understanding-es6-part-5/">
+            <span class="next-text nav-default">《深入理解ES6》读书笔记之五：解构</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'wildnode-blog';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:wildnode@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/KidneyFlower" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/KidneyFlower" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">KidneyFlower</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

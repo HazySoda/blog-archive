@@ -6,10 +6,37 @@
     <description>Recent content in 前端 on WildNode</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 15 Sep 2018 04:15:25 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 30 Sep 2018 22:06:09 +0800</lastBuildDate>
     
 	<atom:link href="http://localhost:1313/categories/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之六：Symbol和Symbol属性</title>
+      <link>http://localhost:1313/post/understanding-es6-part-6/</link>
+      <pubDate>Sun, 30 Sep 2018 22:06:09 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-6/</guid>
+      <description>除了之前的字符串型、数字型、布尔型、null 和 undefined，ES6 中引入了第 6 种原始类型：Symbol。 创建 Symbol 可以通过全局的 Symbol 函数创建</description>
+    </item>
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之五：解构</title>
+      <link>http://localhost:1313/post/understanding-es6-part-5/</link>
+      <pubDate>Tue, 18 Sep 2018 22:36:35 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-5/</guid>
+      <description>对象和数组字面量是 JavaScript 中两种最常用的数据结构，我们经常定义许多对象和数组，然后有组织地从中提取相关的信息片段。ES6 中添加了可以简化这种任务的</description>
+    </item>
+    
+    <item>
+      <title>《深入理解ES6》读书笔记之四：扩展对象的功能性</title>
+      <link>http://localhost:1313/post/understanding-es6-part-4/</link>
+      <pubDate>Tue, 18 Sep 2018 22:36:33 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/understanding-es6-part-4/</guid>
+      <description>对象的类别 ES6 标准清晰定义了每一个类别的对象： 普通对象（Ordinary）：具有 JavaScript 对象所有的默认内部行为。 特异对象（Exotic）：具有某些与</description>
+    </item>
     
     <item>
       <title>《深入理解ES6》读书笔记之三：函数</title>

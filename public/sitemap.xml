@@ -3,6 +3,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://localhost:1313/post/understanding-es6-part-6/</loc>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/understanding-es6-part-5/</loc>
+    <lastmod>2018-09-18T22:36:35+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/understanding-es6-part-4/</loc>
+    <lastmod>2018-09-18T22:36:33+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://localhost:1313/post/understanding-es6-part-3/</loc>
     <lastmod>2018-09-15T04:15:25+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -38,42 +59,42 @@
   
   <url>
     <loc>http://localhost:1313/tags/es6/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/tags/javascript/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/post/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/categories/%E5%89%8D%E7%AB%AF/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -94,7 +115,7 @@
   
   <url>
     <loc>http://localhost:1313/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2018-09-15T04:15:25+08:00</lastmod>
+    <lastmod>2018-09-30T22:06:09+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
